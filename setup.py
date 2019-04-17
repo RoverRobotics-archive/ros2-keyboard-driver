@@ -1,31 +1,19 @@
+from xml import etree
 from setuptools import setup
+from xml.etree import ElementTree
 
-package_name = 'keystroke'
+package = ElementTree.parse('package.xml')
 
-setup(
-    name=package_name,
-    version='0.0.0',
-    packages=[],
-    py_modules=[
-        'keystroke_listen',
-    ],
-    install_requires=['setuptools', 'pynput'],
-    zip_safe=True,
-    author='Dan Rose',
-    author_email="dan@digilabs.io",
-    keywords=['ROS', 'ROS2'],
-    classifiers=[
-        'Framework :: ROS2',
-        'Intended Audience :: Developers',
-        'Programming Language :: Python',
-        'Topic :: Software Development',
-    ],
-    description='A node that does keyboard stuff',
-    license='Apache License, Version 2.0',
-    tests_require=['pytest'],
-    entry_points={
-        'console_scripts': [
-            'keystroke_listen = keystroke_listen:main',
-        ],
-    },
+properties_from_ros2_package = dict(
+    name='ros2-' + package.findtext('name'),
+    version=package.findtext('version'),
+    description=package.findtext('description'),
+
+    author=package.find('author').text,
+    author_email=package.find('author').attrib['email'],
+
+    maintainer=package.find('maintainer').text,
+    maintainer_email=package.find('maintainer').attrib['email'],
 )
+
+setup(**properties_from_ros2_package)
