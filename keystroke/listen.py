@@ -9,7 +9,6 @@ import std_msgs.msg
 class KeystrokeListenNode:
     def __init__(self, name):
         self.node = rclpy.create_node(name)
-        # note this
         self.pub_glyph = self.node.create_publisher(std_msgs.msg.String, 'glyphkey_pressed')
         # todo: when ROS2 supports Enums, use them: https://github.com/ros2/rosidl/issues/260
         self.pub_code = self.node.create_publisher(std_msgs.msg.UInt32, 'key_pressed')
