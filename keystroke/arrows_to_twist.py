@@ -6,9 +6,9 @@ from rclpy.constants import S_TO_NS
 from std_msgs.msg import UInt32
 
 
-class KeystrokeToTwistNode:
-    def __init__(self, name):
-        self.node = rclpy.create_node(name)
+class ArrowsToTwist:
+    def __init__(self, name=None):
+        self.node = rclpy.create_node(name or type(self).__name__)
         self.sub_code = self.node.create_subscription(UInt32, 'key_pressed', self.on_code)
         self.pub_twist = self.node.create_publisher(Twist, 'cmd_vel')
         publish_period_sec = self.get_param('publish_period', float, 0.2)
@@ -17,7 +17,7 @@ class KeystrokeToTwistNode:
         self.angular_scale = self.get_param('angular_scale', float, 0.2)
         self.current_linear = [0, 0, 0]
         self.current_angular = [0, 0, 0]
-        self.logger.info('Keystroke to twist node ready - [F1] for usage')
+        self.logger.info('Arrows to twist node ready - [F1] for usage')
 
     def get_param(self, name, expected_type, default):
         param = self.node.get_parameter(name)
@@ -31,7 +31,7 @@ class KeystrokeToTwistNode:
                     param.value,
                     expected_type,
                     default),
-                once=True)
+            )
             return default
 
     def on_tmr(self):
@@ -92,7 +92,7 @@ class KeystrokeToTwistNode:
 
 def main(args=None):
     rclpy.init(args=args)
-    node = KeystrokeToTwistNode('keystroke_to_twist')
+    node = ArrowsToTwist()
     node.spin()
 
 
