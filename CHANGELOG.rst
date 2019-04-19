@@ -2,8 +2,8 @@
 Changelog for package keystroke
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.0 (2019-04-19)
+------------------
 * Add node to convert keyboard arrows to twist instructions and a launcher script for use with ros2 launch
 
 0.1.1 (2019-04-17)
