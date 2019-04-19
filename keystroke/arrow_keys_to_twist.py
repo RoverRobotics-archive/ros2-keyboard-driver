@@ -13,10 +13,11 @@ class KeystrokeToTwistNode:
         self.pub_twist = self.node.create_publisher(Twist, 'cmd_vel')
         publish_period_sec = self.get_param('publish_period', float, 0.2)
         self.tmr_twist = self.node.create_timer(publish_period_sec, self.on_tmr)
-        self.linear_scale = 1  # self.get_param('linear_scale', float, 1)
-        self.angular_scale = 1  # self.get_param('angular_scale', float, 0.2)
+        self.linear_scale = self.get_param('linear_scale', float, 1)
+        self.angular_scale = self.get_param('angular_scale', float, 0.2)
         self.current_linear = [0, 0, 0]
         self.current_angular = [0, 0, 0]
+        self.logger.info('Keystroke to twist node ready - [F1] for usage')
 
     def get_param(self, name, expected_type, default):
         param = self.node.get_parameter(name)
@@ -57,19 +58,32 @@ class KeystrokeToTwistNode:
         self.tmr_twist.reset()
 
     def on_code(self, msg):
-        if msg.data == Key.up.value.vk:
-            self.logger.info('increasing forward speed')
+        if msg.data == Key.f1.value.vk:
+            self.logger.info("\n".join([
+                'Use the arrow keys to change speed.',
+                '[F1] = Show this help',
+                '[Up]/[Down] = Forward and backward',
+                '[Left]/[Right] = Clockwise and counterclockwise'
+                '[Space] = Stop'
+            ]))
+        elif msg.data == Key.up.value.vk:
+            self.logger.info('Increasing forward speed')
             self.current_linear[0] += self.linear_scale
         elif msg.data == Key.down.value.vk:
+            self.logger.info('Decreasing forward speed')
             self.current_linear[0] -= self.linear_scale
         elif msg.data == Key.left.value.vk:
+            self.logger.info('Increasing clockwise speed')
             self.current_angular[2] -= self.angular_scale
         elif msg.data == Key.right.value.vk:
+            self.logger.info('Decreasing clockwise speed')
             self.current_angular[2] += self.angular_scale
         elif msg.data == Key.space.value.vk:
-            self.logger.info('resetting speed')
+            self.logger.info('Resetting speed')
             self.current_angular = [0, 0, 0]
             self.current_linear = [0, 0, 0]
+        else:
+            self.logger.debug('Key ignored: {}'.format(msg.data))
 
     def spin(self):
         while rclpy.ok():
