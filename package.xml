@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>keystroke</name>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
   <description>Capture keyboard input from the local computer and publish it to ROS</description>
   <maintainer email="dan@digilabs.io">Dan Rose</maintainer>
   <license>Apache License 2.0</license>

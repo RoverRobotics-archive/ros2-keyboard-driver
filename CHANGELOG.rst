@@ -2,8 +2,8 @@
 Changelog for package keystroke
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.1 (2019-04-19)
+------------------
 * Explicitly document python version
   Add setuptools minimum version 40.5 (need for [options.data_files])
 
