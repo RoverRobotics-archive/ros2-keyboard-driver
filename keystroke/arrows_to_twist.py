@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from geometry_msgs.msg import Twist, Vector3
 from pynput.keyboard import Key
 import rclpy

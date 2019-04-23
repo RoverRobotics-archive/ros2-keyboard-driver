@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 from pynput import keyboard
 
 import rclpy
