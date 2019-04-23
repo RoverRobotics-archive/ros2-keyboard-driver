@@ -1,27 +1,30 @@
 import launch
-import launch_ros.actions
-
+from launch import LaunchDescription
+from launch.actions import RegisterEventHandler, EmitEvent
+from launch.event_handlers import OnProcessExit
+from launch.events import Shutdown
+from launch_ros.actions import Node
 
 def generate_launch_description():
-    keystroke_node = launch_ros.actions.Node(
+    keystroke_node = Node(
         package='keystroke', node_executable='keystroke_listen', output='screen', node_name='keystroke_listen',
         parameters=[{'exit_on_esc': True}], arguments=['__log_level:=warn'])
-    twist_node = launch_ros.actions.Node(
+    twist_node = Node(
         package='keystroke', node_executable='keystroke_arrows_to_twist', output='screen', node_name='arrows_to_twist',
         parameters=[{'publish_period': 0.1, 'linear_scale': 1.0, 'angular_scale': 0.2}])
-    return launch.LaunchDescription([
+    return LaunchDescription([
         keystroke_node,
         twist_node,
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
                 target_action=keystroke_node,
-                on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
+                on_exit=[EmitEvent(event=Shutdown())],
             )
         ),
-        launch.actions.RegisterEventHandler(
-            event_handler=launch.event_handlers.OnProcessExit(
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
                 target_action=twist_node,
-                on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
+                on_exit=[EmitEvent(event=Shutdown())],
             )
         )
     ])
