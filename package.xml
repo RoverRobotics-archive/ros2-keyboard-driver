@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>keystroke</name>
-  <version>0.2.2</version>
-  <description>Capture keyboard input from the local computer and publish it to ROS</description>
-  <maintainer email="dan@digilabs.io">Dan Rose</maintainer>
-  <license>Apache License 2.0</license>
+    <name>keystroke</name>
+    <version>0.2.2</version>
+    <description>Capture keyboard input from the local computer and publish it to ROS</description>
 
-  <author email='info@roverrobotics.com'>Rover Robotics</author>
+    <author email="info@roverrobotics.com">Rover Robotics</author>
+    <maintainer email="dan@digilabs.io">Dan Rose</maintainer>
+    <license>BSD-3-Clause</license>
 
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>launch</exec_depend>
-  <exec_depend>launch_ros</exec_depend>
-  <exec_depend>rclpy</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
+    <exec_depend>geometry_msgs</exec_depend>
+    <exec_depend>launch</exec_depend>
+    <exec_depend>launch_ros</exec_depend>
+    <exec_depend>rclpy</exec_depend>
+    <exec_depend>std_msgs</exec_depend>
 
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
+    <test_depend>ament_lint_auto</test_depend>
+    <test_depend>ament_lint_common</test_depend>
 
-  <export>
-    <build_type>ament_python</build_type>
-  </export>
+    <export>
+        <build_type>ament_python</build_type>
+    </export>
 </package>
