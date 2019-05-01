@@ -12,7 +12,7 @@ class ArrowsToTwist:
         self.pub_twist = self.node.create_publisher(Twist, 'cmd_vel')
         publish_period_sec = self.get_param('publish_period', float, 0.2)
         self.tmr_twist = self.node.create_timer(publish_period_sec, self.on_tmr)
-        self.linear_scale = self.get_param('linear_scale', float, 1)
+        self.linear_scale = self.get_param('linear_scale', float, 0.1)
         self.angular_scale = self.get_param('angular_scale', float, 0.2)
         self.current_linear = [0, 0, 0]
         self.current_angular = [0, 0, 0]
