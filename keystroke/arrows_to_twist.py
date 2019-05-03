@@ -1,3 +1,11 @@
+import sys
+
+# pynput throws an error if we import it before $DISPLAY is set on LINUX
+if sys.platform not in ('darwin', 'win32'):
+    import os
+
+    os.environ.setdefault('DISPLAY', ':0')
+
 from geometry_msgs.msg import Twist, Vector3
 from pynput.keyboard import Key
 import rclpy
@@ -72,10 +80,10 @@ class ArrowsToTwist:
             self.logger.info('Decreasing forward speed')
             self.current_linear[0] -= self.linear_scale
         elif msg.data == Key.left.value.vk:
-            self.logger.info('Increasing clockwise speed')
+            self.logger.info('Yawing left')
             self.current_angular[2] -= self.angular_scale
         elif msg.data == Key.right.value.vk:
-            self.logger.info('Decreasing clockwise speed')
+            self.logger.info('Yawing right')
             self.current_angular[2] += self.angular_scale
         elif msg.data == Key.space.value.vk:
             self.logger.info('Resetting speed')

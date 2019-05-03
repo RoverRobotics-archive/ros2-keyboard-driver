@@ -1,3 +1,13 @@
+import sys
+
+# pynput throws an error if we import it before $DISPLAY is set on LINUX
+from pynput.keyboard import KeyCode
+
+if sys.platform not in ('darwin', 'win32'):
+    import os
+
+    os.environ.setdefault('DISPLAY', ':0')
+
 from pynput import keyboard
 
 import rclpy
@@ -48,13 +58,22 @@ class KeystrokeListen:
 
     def on_press(self, key):
         try:
-            if isinstance(key, keyboard.KeyCode):
-                self.logger.info('pressed ' + str(key))
-                self.pub_glyph.publish(self.pub_glyph.msg_type(data=key.char))
+            char = getattr(key, 'char', None)
+            if isinstance(char, str):
+                self.logger.info('pressed ' + char)
+                self.pub_glyph.publish(self.pub_glyph.msg_type(data=char))
             else:
-                self.logger.info('pressed {} ({})'.format(key.name, key.value.vk))
+                try:
+                    # known keys like spacebar, ctrl
+                    name = key.name
+                    vk = key.value.vk
+                except AttributeError:
+                    # unknown keys like headphones skip song button
+                    name = 'UNKNOWN'
+                    vk = key.vk
+                self.logger.info('pressed {} ({})'.format(name, vk))
                 # todo: These values are not cross-platform. When ROS2 supports Enums, use them instead
-                self.pub_code.publish(self.pub_code.msg_type(data=key.value.vk))
+                self.pub_code.publish(self.pub_code.msg_type(data=vk))
         except Exception as e:
             self.logger.error(str(e))
             raise
