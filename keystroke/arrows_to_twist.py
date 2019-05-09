@@ -81,10 +81,10 @@ class ArrowsToTwist:
             self.current_linear[0] -= self.linear_scale
         elif msg.data == Key.left.value.vk:
             self.logger.info('Yawing left')
-            self.current_angular[2] -= self.angular_scale
+            self.current_angular[2] += self.angular_scale
         elif msg.data == Key.right.value.vk:
             self.logger.info('Yawing right')
-            self.current_angular[2] += self.angular_scale
+            self.current_angular[2] -= self.angular_scale
         elif msg.data == Key.space.value.vk:
             self.logger.info('Resetting speed')
             self.current_angular = [0, 0, 0]
