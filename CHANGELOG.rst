@@ -2,8 +2,8 @@
 Changelog for package keystroke
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.0.0 (2019-05-09)
+------------------
 * Flip rotation angle so counterclockwise = positive yaw
 * Contributors: Dan Rose
 
