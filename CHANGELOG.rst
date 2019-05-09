@@ -2,6 +2,11 @@
 Changelog for package keystroke
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Flip rotation angle so counterclockwise = positive yaw
+* Contributors: Dan Rose
+
 0.3.0 (2019-05-03)
 ------------------
 * Fix crash on headless Linux server
