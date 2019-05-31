@@ -1,7 +1,6 @@
 import sys
 
 # pynput throws an error if we import it before $DISPLAY is set on LINUX
-from pynput.keyboard import KeyCode
 
 if sys.platform not in ('darwin', 'win32'):
     import os
@@ -11,7 +10,6 @@ if sys.platform not in ('darwin', 'win32'):
 from pynput import keyboard
 
 import rclpy
-from rclpy.parameter import Parameter
 import std_msgs.msg
 
 
@@ -21,6 +19,7 @@ class KeystrokeListen:
         self.pub_glyph = self.node.create_publisher(std_msgs.msg.String, 'glyphkey_pressed')
         # todo: when ROS2 supports Enums, use them: https://github.com/ros2/rosidl/issues/260
         self.pub_code = self.node.create_publisher(std_msgs.msg.UInt32, 'key_pressed')
+        self.exit_on_esc = self.node.declare_parameter('exit on esc', False).value
         if self.exit_on_esc:
             self.logger.info('To end this node, press the escape key')
 
@@ -32,25 +31,6 @@ class KeystrokeListen:
     @property
     def logger(self):
         return self.node.get_logger()
-
-    @property
-    def exit_on_esc(self):
-        param = self.node.get_parameter('exit_on_esc')
-
-        if param.type_ != Parameter.Type.BOOL:
-            new_param = Parameter('exit_on_esc', Parameter.Type.BOOL, True)
-            self.logger.warn(
-                'Parameter {}={} is a {} but expected a boolean. Assuming {}.'.format(param.name,
-                                                                                      param.value,
-                                                                                      param.type_,
-                                                                                      new_param.value),
-                once=True)
-            self.node.set_parameters([new_param])
-            param = new_param
-
-        value = param.value
-        assert isinstance(value, bool)
-        return value
 
     def on_release(self, key):
         # todo: implement this

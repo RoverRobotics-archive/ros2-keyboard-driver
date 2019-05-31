@@ -18,28 +18,14 @@ class ArrowsToTwist:
         self.node = rclpy.create_node(name or type(self).__name__)
         self.sub_code = self.node.create_subscription(UInt32, 'key_pressed', self.on_code)
         self.pub_twist = self.node.create_publisher(Twist, 'cmd_vel')
-        publish_period_sec = self.get_param('publish_period', float, 0.2)
+
+        publish_period_sec = self.node.declare_parameter('publish_period', 0.2).value
         self.tmr_twist = self.node.create_timer(publish_period_sec, self.on_tmr)
-        self.linear_scale = self.get_param('linear_scale', float, 0.1)
-        self.angular_scale = self.get_param('angular_scale', float, 0.2)
+        self.linear_scale = self.node.declare_parameter('linear_scale', 0.1).value
+        self.angular_scale = self.node.declare_parameter('angular_scale', 0.2).value
         self.current_linear = [0, 0, 0]
         self.current_angular = [0, 0, 0]
         self.logger.info('Arrows to twist node ready - [F1] for usage')
-
-    def get_param(self, name, expected_type, default):
-        param = self.node.get_parameter(name)
-        value = param.value
-        if isinstance(value, expected_type):
-            return value
-        else:
-            self.logger.warn(
-                'Parameter {}={} is not a {}. Assuming {}.'.format(
-                    param.name,
-                    param.value,
-                    expected_type,
-                    default),
-            )
-            return default
 
     def on_tmr(self):
         twist = Twist(
