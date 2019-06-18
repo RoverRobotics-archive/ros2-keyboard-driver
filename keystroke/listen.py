@@ -19,7 +19,7 @@ class KeystrokeListen:
         self.pub_glyph = self.node.create_publisher(std_msgs.msg.String, 'glyphkey_pressed')
         # todo: when ROS2 supports Enums, use them: https://github.com/ros2/rosidl/issues/260
         self.pub_code = self.node.create_publisher(std_msgs.msg.UInt32, 'key_pressed')
-        self.exit_on_esc = self.node.declare_parameter('exit on esc', False).value
+        self.exit_on_esc = self.node.declare_parameter('exit_on_esc', False).value
         if self.exit_on_esc:
             self.logger.info('To end this node, press the escape key')
 
