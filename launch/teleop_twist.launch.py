@@ -1,9 +1,10 @@
-import launch
-from launch import LaunchDescription
-from launch.actions import RegisterEventHandler, EmitEvent
+from launch.actions import SetEnvironmentVariable, RegisterEventHandler, EmitEvent
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch_ros.actions import Node
+
+from launch import LaunchDescription
+
 
 def generate_launch_description():
     keystroke_node = Node(
@@ -15,6 +16,7 @@ def generate_launch_description():
     return LaunchDescription([
         keystroke_node,
         twist_node,
+        SetEnvironmentVariable('RCUTILS_CONSOLE_STDOUT_LINE_BUFFERED', '1'),
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=keystroke_node,
