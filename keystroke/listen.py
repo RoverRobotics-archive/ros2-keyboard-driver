@@ -11,16 +11,18 @@ if sys.platform not in ('darwin', 'win32'):
 from pynput import keyboard
 
 import rclpy
+from rclpy.node import Node
 from rclpy.parameter import Parameter
 import std_msgs.msg
 
 
-class KeystrokeListen:
+class KeystrokeListen():
     def __init__(self, name=None):
         self.node = rclpy.create_node(name or type(self).__name__)
-        self.pub_glyph = self.node.create_publisher(std_msgs.msg.String, 'glyphkey_pressed')
+        self.node.declare_parameter('exit_on_esc', None)
+        self.pub_glyph = self.node.create_publisher(std_msgs.msg.String, 'glyphkey_pressed',10)
         # todo: when ROS2 supports Enums, use them: https://github.com/ros2/rosidl/issues/260
-        self.pub_code = self.node.create_publisher(std_msgs.msg.UInt32, 'key_pressed')
+        self.pub_code = self.node.create_publisher(std_msgs.msg.UInt32, 'key_pressed',10)
         if self.exit_on_esc:
             self.logger.info('To end this node, press the escape key')
 
